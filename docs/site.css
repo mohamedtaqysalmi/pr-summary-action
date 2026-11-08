@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #0b1210;
   --bg-elev: #121a17;
   --ink: #e7f2ec;
@@ -215,6 +215,62 @@ nav a:focus-visible {
   margin-top: 1.4rem;
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.proof {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding: 1rem clamp(1rem, 4vw, 2.5rem) 3.5rem;
+  align-items: start;
+}
+
+.proof-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.6rem;
+}
+
+.proof-copy p {
+  color: var(--muted);
+  margin: 0 0 1rem;
+  max-width: 34rem;
+}
+
+.proof-copy a {
+  color: var(--mint);
+}
+
+.proof-meta {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #d5e6dc;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.proof-frame {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  overflow: hidden;
+  background: #060a09;
+  box-shadow: var(--shadow);
+  animation: float-in 0.8s ease both;
+}
+
+.proof-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.proof-frame figcaption {
+  padding: 0.7rem 0.9rem 0.9rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
 }
 
 .sim {
@@ -566,6 +622,7 @@ nav a:focus-visible {
 }
 
 @media (max-width: 900px) {
+  .proof,
   .sim {
     grid-template-columns: 1fr;
   }

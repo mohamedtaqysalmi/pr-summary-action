@@ -1,10 +1,14 @@
-# PR Summary Action
+﻿# PR Summary Action
 
 **GitHub Action that turns a bounded, redacted pull-request diff into one updatable review comment.**
 
-[Live demo page](https://mohamedtaqysalmi.github.io/pr-summary-action/) · [Repository](https://github.com/mohamedtaqysalmi/pr-summary-action) · MIT · Built by Mohamed-Taqy Salmi
+[Live demo page](https://mohamedtaqysalmi.github.io/pr-summary-action/) · [Live PR #3 proof](https://github.com/mohamedtaqysalmi/pr-summary-action/pull/3) · MIT · Built by Mohamed-Taqy Salmi
 
-Summarizes a pull request from a size-limited, redacted diff and keeps a single marker comment up to date. The public page includes an interactive **dry-run simulation** (no API key, no GitHub write).
+Summarizes a pull request from a size-limited, redacted diff and keeps a single marker comment up to date. The public page includes an interactive **dry-run simulation** plus a **real OpenAI comment screenshot**.
+
+![Live PR comment from pr-summary-action on merged PR #3](docs/live-pr-comment.png)
+
+Captured 2026-11-08 from [PR #3](https://github.com/mohamedtaqysalmi/pr-summary-action/pull/3): `llm=true`, `model=gpt-4o-mini`, `dry-run=false`, then merged.
 
 ## CLI capture
 
@@ -306,7 +310,7 @@ Coverage from `npm run test:coverage` on Node.js 20.20.2 at 2026-11-08 11:31 UTC
 
 ## Limitations and roadmap
 
-- No live model call and no live pull request comment were made. There is no owner API key in this environment, and posting a comment was not approved. The client and the comment upsert are covered with a local mock server. A real provider run and a real comment wait on a repo secret and owner approval.
+- A live OpenAI run posted a real marker comment on [PR #3](https://github.com/mohamedtaqysalmi/pr-summary-action/pull/3) (`gpt-4o-mini`, then merged). Screenshot: [docs/live-pr-comment.png](docs/live-pr-comment.png). Mock coverage remains for CI without a key.
 - `docker compose up --build` was run successfully on Docker Desktop 29.9.2 / Compose v5.6.1. The image build runs tests; the container prints the same keyless inventory as the CLI. Capture: [docs/docker-compose-capture.txt](docs/docker-compose-capture.txt).
 - The repo is on GitHub at [mohamedtaqysalmi/pr-summary-action](https://github.com/mohamedtaqysalmi/pr-summary-action) (private). CI verifies lint, tests, build, committed `dist/`, the bundle CLI, and `npm audit`. The first remote CI run failed only on an executable-bit diff for `dist/cli.js`; CI now ignores file-mode-only changes under `dist/`.
 - The read-only self-test workflow (`.github/workflows/self-test.yml`) runs the local action with `dry-run: true` and no API key on `pull_request`. It does not post a comment and does not need a paid key.

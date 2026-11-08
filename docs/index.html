@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -17,12 +17,16 @@
     <meta property="og:title" content="PR Summary Action" />
     <meta
       property="og:description"
-      content="Bounds and redacts a PR diff, then upserts one AI review comment. Simulate a keyless dry-run on this page."
+      content="Bounds and redacts a PR diff, then upserts one AI review comment. Includes a live OpenAI PR comment proof and a keyless dry-run simulation."
     />
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
       content="https://mohamedtaqysalmi.github.io/pr-summary-action/"
+    />
+    <meta
+      property="og:image"
+      content="https://mohamedtaqysalmi.github.io/pr-summary-action/live-pr-comment.png"
     />
     <link rel="canonical" href="https://mohamedtaqysalmi.github.io/pr-summary-action/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -42,6 +46,7 @@
         <span class="brand">pr-summary-action</span>
       </div>
       <nav aria-label="Primary">
+        <a href="#proof">Live proof</a>
         <a href="#simulate">Simulate</a>
         <a href="#how">How it works</a>
         <a href="#start">Quick start</a>
@@ -64,16 +69,44 @@
           dump into the model by default.
         </p>
         <div class="cta-row">
-          <a class="btn primary" href="#simulate">Run the dry-run simulation</a>
-          <a
-            class="btn ghost"
-            href="https://github.com/mohamedtaqysalmi/pr-summary-action"
-            >View repository</a
-          >
+          <a class="btn primary" href="#proof">See the live PR comment</a>
+          <a class="btn ghost" href="#simulate">Run dry-run simulation</a>
         </div>
         <p class="hero-note">
           Built by <strong>Mohamed-Taqy Salmi</strong> · MIT · EN / FR / Darija
         </p>
+      </section>
+
+      <section id="proof" class="proof" aria-labelledby="proof-title">
+        <div class="proof-copy">
+          <h2 id="proof-title">Live proof</h2>
+          <p>
+            Real run on
+            <a href="https://github.com/mohamedtaqysalmi/pr-summary-action/pull/3"
+              >PR #3</a
+            >
+            with <code>OPENAI_API_KEY</code>, model <code>gpt-4o-mini</code>,
+            <code>llm=true</code>, <code>dry-run=false</code>. The Action posted
+            one marker comment; the PR was merged.
+          </p>
+          <ul class="proof-meta">
+            <li>Workflow: <code>PR summary</code></li>
+            <li>Checks: CI · Self-test · PR summary — green</li>
+            <li>Captured 2026-11-08</li>
+          </ul>
+        </div>
+        <figure class="proof-frame">
+          <img
+            src="./live-pr-comment.png"
+            width="1456"
+            height="2200"
+            alt="Merged PR #3 showing the live pr-summary-action GitHub comment generated with OpenAI gpt-4o-mini"
+            loading="eager"
+          />
+          <figcaption>
+            Screenshot of the merged live demo PR and the Action comment.
+          </figcaption>
+        </figure>
       </section>
 
       <section id="simulate" class="sim" aria-labelledby="sim-title">
