@@ -1,0 +1,7 @@
+node_modules
+coverage
+dist
+.git
+uploads
+*.md
+!README.md

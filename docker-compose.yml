@@ -1,0 +1,5 @@
+services:
+  dry-run:
+    build: .
+    image: pr-summary-action:local
+    init: true
