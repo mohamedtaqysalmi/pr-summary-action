@@ -1,0 +1,91 @@
+name: PR Summary
+description: >-
+  Summarize a pull request from a bounded, redacted diff and upsert one hidden-marker comment.
+author: Mohamed-Taqy Salmi
+branding:
+  icon: file-text
+  color: blue
+
+inputs:
+  api-key:
+    description: >-
+      API key for the OpenAI-compatible endpoint. Sent only as an Authorization bearer header.
+      Required unless dry-run is true. Not written into the prompt or the comment.
+    required: false
+  base-url:
+    description: >-
+      OpenAI-compatible API origin. Include the /v1 prefix when the provider uses it.
+      Examples: https://api.openai.com/v1 or http://127.0.0.1:11434/v1.
+    required: false
+    default: https://api.openai.com/v1
+  model:
+    description: Model id sent to the chat completions endpoint.
+    required: false
+    default: gpt-4o-mini
+  language:
+    description: >-
+      Language for model-written prose and the fixed comment headings.
+      One of en, fr, or darija. JSON keys stay English. Darija is rendered right-to-left.
+    required: false
+    default: en
+  max-diff-chars:
+    description: >-
+      Maximum characters of redacted diff text that may be sent to the model. Integer from 1000 to 500000.
+    required: false
+    default: "60000"
+  ignore-paths:
+    description: >-
+      Globs for paths omitted before redaction and before the model call. Separate entries with newlines or commas.
+    required: false
+    default: |
+      **/node_modules/**
+      **/dist/**
+      **/*.lock
+      **/package-lock.json
+      **/pnpm-lock.yaml
+      **/yarn.lock
+  mode:
+    description: >-
+      summary writes the summary, key changes, risks, and test plan.
+      commit-review adds a Conventional Commit title suggestion and reviews commit messages.
+      full does both. The commit-message format check also runs without a model.
+    required: false
+    default: summary
+  dry-run:
+    description: >-
+      When true, do not create or update a pull request comment.
+      Without an api-key the model is not called. The CLI always dry-runs.
+    required: false
+    default: "false"
+  fail-on-error:
+    description: >-
+      When false, operational failures are logged and the action exits successfully.
+      When true, the action fails the job. The CLI defaults to true.
+    required: false
+    default: "false"
+  github-token:
+    description: >-
+      Token used to read the pull request and, unless dry-run, to upsert the marker comment.
+      Not sent to the model.
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  summary:
+    description: Model summary, or a local notice when the model was not called.
+  comment-id:
+    description: Id of the upserted comment. Empty when no comment was written.
+  conventional-title:
+    description: Suggested Conventional Commit title when the model returned one. Empty otherwise.
+  dry-run:
+    description: "true when no comment was written."
+  llm-called:
+    description: "true when a model endpoint was called."
+  error:
+    description: Error message when the run failed. Empty on success.
+  skipped:
+    description: "true when a failure was caught and the action continued because fail-on-error is false."
+
+runs:
+  using: node20
+  main: dist/index.js

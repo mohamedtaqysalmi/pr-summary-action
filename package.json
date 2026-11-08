@@ -1,0 +1,39 @@
+{
+  "name": "pr-summary-action",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GitHub Action that summarizes a pull request from a bounded, redacted diff and upserts one marker comment.",
+  "license": "MIT",
+  "author": "Mohamed-Taqy Salmi",
+  "engines": {
+    "node": ">=20"
+  },
+  "overrides": {
+    "minimatch": "11.0.5"
+  },
+  "bin": {
+    "pr-summary": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:cli": "vitest run --config vitest.bundle.config.mjs",
+    "dev": "node dist/cli.js dry-run --diff-file tests/fixtures/sample.diff --commits-file tests/fixtures/commits.json --language en --mode full"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.6",
+    "@vitest/coverage-v8": "^5.1.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.14.0",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.1.0"
+  }
+}

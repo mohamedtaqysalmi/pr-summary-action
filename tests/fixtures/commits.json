@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "message": "feat(auth): shorten session ttl\n\nKeep idle sessions for 15 minutes.\n"
+  },
+  {
+    "sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "message": "update stuff"
+  },
+  {
+    "sha": "cccccccccccccccccccccccccccccccccccccccc",
+    "message": "fix(config): remove sample credential\n\npassword = \"hunter2hunter2\"\n"
+  }
+]

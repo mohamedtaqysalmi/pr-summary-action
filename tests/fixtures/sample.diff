@@ -1,0 +1,64 @@
+diff --git a/src/auth/session.ts b/src/auth/session.ts
+index 1111111..2222222 100644
+--- a/src/auth/session.ts
++++ b/src/auth/session.ts
+@@ -1,5 +1,12 @@
+ export function sessionTtl(): number {
+-  return 3600;
++  return 900;
+ }
++
++/**
++ * Reset the user password flow after rotation.
++ */
++export function sessionLabel(user: string): string {
++  return `session:${user}`;
++}
+diff --git a/src/auth/session.test.ts b/src/auth/session.test.ts
+index 3333333..4444444 100644
+--- a/src/auth/session.test.ts
++++ b/src/auth/session.test.ts
+@@ -1,3 +1,8 @@
+ import { sessionTtl } from "./session";
+ 
+-test("ttl", () => expect(sessionTtl()).toBe(3600));
++test("ttl", () => expect(sessionTtl()).toBe(900));
++test("label", () => {
++  expect(sessionLabel("ada")).toBe("session:ada");
++});
+diff --git a/src/config/example.ts b/src/config/example.ts
+new file mode 100644
+index 0000000..5555555
+--- /dev/null
++++ b/src/config/example.ts
+@@ -0,0 +1,8 @@
++export const githubToken = "ghp_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
++export const awsKey = "AKIAIOSFODNN7EXAMPLE";
++export const apiKey = "supersecretvalue";
++const privateKey = `-----BEGIN RSA PRIVATE KEY-----
++MIIBogIBAAJBALFakeKeyMaterialForTestsOnly1234567890
++-----END RSA PRIVATE KEY-----`;
+diff --git a/package-lock.json b/package-lock.json
+index 6666666..7777777 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,3 +1,4 @@
+ {
+   "name": "example",
++  "sentinel": "LOCKFILE_SENTINEL_DO_NOT_SEND",
+   "lockfileVersion": 3
+ }
+diff --git a/assets/logo.png b/assets/logo.png
+new file mode 100644
+index 0000000..8888888
+Binary files /dev/null and b/assets/logo.png differ
+diff --git a/src/old-name.ts b/src/auth/names.ts
+similarity index 90%
+rename from src/old-name.ts
+rename to src/auth/names.ts
+index 9999999..aaaaaaa 100644
+--- a/src/old-name.ts
++++ b/src/auth/names.ts
+@@ -1 +1 @@
+-export const name = "old";
++export const name = "session";
