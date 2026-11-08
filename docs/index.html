@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PR Summary Action — redacted diff to one review comment</title>
+    <meta
+      name="description"
+      content="Open-source GitHub Action by Mohamed-Taqy Salmi. Bounds and redacts a pull request diff, then posts one updatable AI review comment. Dry-run works with no API key."
+    />
+    <meta name="author" content="Mohamed-Taqy Salmi" />
+    <meta
+      name="keywords"
+      content="GitHub Action, pull request summary, code review, OpenAI, Ollama, Conventional Commits, Darija, TypeScript, secret redaction"
+    />
+    <meta name="theme-color" content="#0b1210" />
+    <meta property="og:title" content="PR Summary Action" />
+    <meta
+      property="og:description"
+      content="Bounds and redacts a PR diff, then upserts one AI review comment. Simulate a keyless dry-run on this page."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://mohamedtaqysalmi.github.io/pr-summary-action/"
+    />
+    <link rel="canonical" href="https://mohamedtaqysalmi.github.io/pr-summary-action/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#simulate">Skip to simulation</a>
+
+    <header class="top">
+      <div class="brand-lock">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="brand">pr-summary-action</span>
+      </div>
+      <nav aria-label="Primary">
+        <a href="#simulate">Simulate</a>
+        <a href="#how">How it works</a>
+        <a href="#start">Quick start</a>
+        <a
+          class="nav-repo"
+          href="https://github.com/mohamedtaqysalmi/pr-summary-action"
+          >GitHub</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">GitHub Action · TypeScript · OpenAI-compatible</p>
+        <h1 id="hero-title">
+          <span class="brand-hero">pr-summary-action</span>
+        </h1>
+        <p class="lede">
+          One bounded, redacted PR diff. One updatable review comment. No secret
+          dump into the model by default.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#simulate">Run the dry-run simulation</a>
+          <a
+            class="btn ghost"
+            href="https://github.com/mohamedtaqysalmi/pr-summary-action"
+            >View repository</a
+          >
+        </div>
+        <p class="hero-note">
+          Built by <strong>Mohamed-Taqy Salmi</strong> · MIT · EN / FR / Darija
+        </p>
+      </section>
+
+      <section id="simulate" class="sim" aria-labelledby="sim-title">
+        <div class="sim-copy">
+          <h2 id="sim-title">Live simulation</h2>
+          <p>
+            This is a browser demo of the keyless dry-run path. No API key, no
+            GitHub write — same idea as
+            <code>node dist/cli.js dry-run</code>.
+          </p>
+          <ol class="pipeline" id="pipeline" aria-live="polite">
+            <li data-step="read">Read bounded diff</li>
+            <li data-step="ignore">Drop ignore globs</li>
+            <li data-step="redact">Redact secret patterns</li>
+            <li data-step="lint">Lint commit subjects</li>
+            <li data-step="comment">Render marker comment</li>
+          </ol>
+          <div class="sim-controls">
+            <button type="button" class="btn primary" id="run-sim">
+              Simulate dry-run
+            </button>
+            <button type="button" class="btn ghost" id="reset-sim" disabled>
+              Reset
+            </button>
+            <label class="lang">
+              Language
+              <select id="lang" aria-label="Comment language">
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="darija">Darija</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="pr-frame" aria-label="Simulated pull request">
+          <div class="pr-chrome">
+            <span class="dot"></span><span class="dot"></span
+            ><span class="dot"></span>
+            <span class="pr-path"
+              >mohamedtaqysalmi / pr-summary-action · Pull request #42</span
+            >
+          </div>
+          <div class="pr-body">
+            <h3>feat(auth): shorten session ttl</h3>
+            <p class="pr-meta">5 files kept · 1 ignored · sample fixture diff</p>
+
+            <div class="status" id="status" role="status">
+              Idle — press <strong>Simulate dry-run</strong> to watch the
+              pipeline.
+            </div>
+
+            <article
+              class="comment"
+              id="comment"
+              hidden
+              aria-label="Action comment preview"
+            >
+              <header class="comment-head">
+                <span class="bot">pr-summary-action</span>
+                <span class="badge" id="badge">dry-run · llm skipped</span>
+              </header>
+              <div class="comment-body" id="comment-body"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="how" class="how" aria-labelledby="how-title">
+        <h2 id="how-title">How it works</h2>
+        <p class="section-lede">
+          Same pipeline for the Action and the CLI. Diff goes through guards
+          before any model call.
+        </p>
+        <ol class="steps">
+          <li>
+            <strong>Bound</strong>
+            <span>Ignore globs, file caps, character and chunk limits.</span>
+          </li>
+          <li>
+            <strong>Redact</strong>
+            <span>Strip common keys and tokens before the prompt is built.</span>
+          </li>
+          <li>
+            <strong>Call or skip</strong>
+            <span
+              >OpenAI-compatible chat when a key exists; inventory-only without
+              one.</span
+            >
+          </li>
+          <li>
+            <strong>Upsert one comment</strong>
+            <span
+              >Hidden marker <code>&lt;!-- pr-summary-action:v1 --&gt;</code> —
+              update in place, not spam.</span
+            >
+          </li>
+        </ol>
+      </section>
+
+      <section class="features" aria-labelledby="feat-title">
+        <h2 id="feat-title">What you get</h2>
+        <ul class="feat-list">
+          <li>Summary, risks, and suggested test plan</li>
+          <li>Conventional Commit title + subject lint</li>
+          <li>EN / FR / Darija headings (Darija RTL-aware)</li>
+          <li>Works with OpenAI, Groq, Ollama, and similar APIs</li>
+          <li><code>fail-on-error: false</code> so flaky models do not fail CI</li>
+          <li>Keyless dry-run for local and CI self-tests</li>
+        </ul>
+      </section>
+
+      <section id="start" class="start" aria-labelledby="start-title">
+        <h2 id="start-title">Quick start</h2>
+        <p class="section-lede">No API key required for the local dry-run.</p>
+        <pre class="code"><code>npm ci
+npm test
+npm run build
+node dist/cli.js dry-run \
+  --diff-file tests/fixtures/sample.diff \
+  --commits-file tests/fixtures/commits.json \
+  --language en --mode full</code></pre>
+        <pre class="code"><code># In a workflow (posts a comment when dry-run is false)
+- uses: mohamedtaqysalmi/pr-summary-action@main
+  with:
+    api-key: ${{ secrets.OPENAI_API_KEY }}
+    mode: full
+    fail-on-error: "false"</code></pre>
+        <p class="links">
+          <a href="./architecture.md">Architecture</a>
+          ·
+          <a href="./privacy.md">Privacy</a>
+          ·
+          <a href="./cli-capture.txt">CLI capture</a>
+          ·
+          <a href="https://github.com/mohamedtaqysalmi/pr-summary-action#readme"
+            >Full README</a
+          >
+        </p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>
+        MIT License · Built by
+        <a href="https://github.com/mohamedtaqysalmi">Mohamed-Taqy Salmi</a>
+      </p>
+      <p class="muted">
+        Simulation only — this page never calls a model or the GitHub API.
+      </p>
+    </footer>
+
+    <script src="./site.js" defer></script>
+  </body>
+</html>

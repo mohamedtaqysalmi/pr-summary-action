@@ -1,6 +1,10 @@
-# pr-summary-action
+# PR Summary Action
 
-Summarizes a pull request from a size-limited, redacted diff and keeps a single marker comment up to date.
+**GitHub Action that turns a bounded, redacted pull-request diff into one updatable review comment.**
+
+[Live demo page](https://mohamedtaqysalmi.github.io/pr-summary-action/) · [Repository](https://github.com/mohamedtaqysalmi/pr-summary-action) · MIT · Built by Mohamed-Taqy Salmi
+
+Summarizes a pull request from a size-limited, redacted diff and keeps a single marker comment up to date. The public page includes an interactive **dry-run simulation** (no API key, no GitHub write).
 
 ## CLI capture
 
