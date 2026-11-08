@@ -16,6 +16,7 @@
 - CI on the first push failed only on a Linux executable-bit change for `dist/cli.js` (`100644` → `100755` from `chmodSync` in `scripts/build.mjs`). Fixed by checking dist with `git -c core.fileMode=false diff --exit-code -- dist`, and recording `dist/cli.js` as mode `100755` in the index.
 - `docker compose up --build` succeeded on Docker Desktop 29.9.2 / Compose v5.6.1. Image build ran tests; the container keyless dry-run matched the CLI capture. Transcript: `docs/docker-compose-capture.txt`.
 - Opened PR #1 (`fix/ci-dist-filemode`) for the CI file-mode fix. CI verify and Self-test both succeeded on the PR. Self-test ran `uses: ./` with `dry-run: true` and no API key; stderr: `kept=4 ignored=1 redactions=0 chunks=1 llm=false dry-run=true comment=none`. Capture: `docs/self-test-capture.txt`.
+- Push-event CI failed `npm run test:cli` because Actions sets `GITHUB_EVENT_PATH` to a non-PR payload; the CLI inherited it and tried to parse the push event. Fixed: CLI mode ignores `GITHUB_EVENT_NAME` / `GITHUB_EVENT_PATH`.
 
 ## In progress
 

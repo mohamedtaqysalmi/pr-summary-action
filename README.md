@@ -287,7 +287,7 @@ npm run test:cli
 
 Vitest is pinned to 4.1.12. Vitest 5 requires Node.js 22 or newer, and this action runs on Node.js 20.
 
-`npm test` is 46 tests: input validation, globs, redaction, diff parsing, bounds, chunks, commit lint, model retries, comment rendering, the keyless CLI, and a local mock of GitHub plus chat completions. The mock checks that ignored file text and raw fixture secrets are absent from the model request, that the GitHub token and the API key stay on their own calls, and that a second run updates the marker comment instead of creating another. `npm run test:cli` runs the built `dist/cli.js` and `dist/index.js` the same way.
+`npm test` is 47 tests: input validation, globs, redaction, diff parsing, bounds, chunks, commit lint, model retries, comment rendering, the keyless CLI, and a local mock of GitHub plus chat completions. The mock checks that ignored file text and raw fixture secrets are absent from the model request, that the GitHub token and the API key stay on their own calls, and that a second run updates the marker comment instead of creating another. `npm run test:cli` runs the built `dist/cli.js` and `dist/index.js` the same way.
 
 Coverage from `npm run test:coverage` on Node.js 20.20.2 at 2026-11-08 11:31 UTC, v8, including `src/**/*.ts` and excluding `src/index.ts` and `src/cli.ts`:
 

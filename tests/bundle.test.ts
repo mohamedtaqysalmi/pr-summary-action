@@ -46,9 +46,15 @@ describe("bundled Node 20 entrypoints", () => {
         "full",
         "--json",
       ],
-      { PR_SUMMARY_MIN_INTERVAL_MS: "0" },
+      {
+        PR_SUMMARY_MIN_INTERVAL_MS: "0",
+        // Simulate a push workflow: Actions always sets these. The CLI must ignore them.
+        GITHUB_EVENT_NAME: "push",
+        GITHUB_EVENT_PATH: "/tmp/missing-push-event.json",
+        GITHUB_REPOSITORY: "acme/widgets",
+      },
     );
-    expect(result.code).toBe(0);
+    expect(result.code, `stderr=${result.stderr}\nstdout=${result.stdout}`).toBe(0);
     expect(result.stdout).toContain('"llmCalled": false');
     expect(result.stdout).toContain('"commentPosted": false');
     expect(result.stdout).not.toContain("AKIAIOSFODNN7EXAMPLE");
