@@ -1,0 +1,18 @@
+name: Feature request
+description: A change to inputs, the comment, or the dry-run report
+title: "feat: "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Say whether the model would see any new data.
+    validations:
+      required: true

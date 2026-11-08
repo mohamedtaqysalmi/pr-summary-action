@@ -1,0 +1,21 @@
+name: Self-test
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Keyless dry-run
+        uses: ./
+        with:
+          dry-run: "true"
+          mode: full
+          language: en
+          fail-on-error: "true"

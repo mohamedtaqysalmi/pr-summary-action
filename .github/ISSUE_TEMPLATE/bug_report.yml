@@ -1,0 +1,24 @@
+name: Bug report
+description: A behavior that does not match the documented action or CLI
+title: "fix: "
+labels: []
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the command or workflow snippet and the error text. Do not paste API keys or raw secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Action version or commit
+    validations:
+      required: true
