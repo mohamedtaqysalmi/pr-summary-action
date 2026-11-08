@@ -15,6 +15,7 @@
 - Pushed to GitHub: https://github.com/mohamedtaqysalmi/pr-summary-action (private). Remote `origin` is that repo.
 - CI on the first push failed only on a Linux executable-bit change for `dist/cli.js` (`100644` → `100755` from `chmodSync` in `scripts/build.mjs`). Fixed by checking dist with `git -c core.fileMode=false diff --exit-code -- dist`, and recording `dist/cli.js` as mode `100755` in the index.
 - `docker compose up --build` succeeded on Docker Desktop 29.9.2 / Compose v5.6.1. Image build ran tests; the container keyless dry-run matched the CLI capture. Transcript: `docs/docker-compose-capture.txt`.
+- Opened PR #1 (`fix/ci-dist-filemode`) for the CI file-mode fix. CI verify and Self-test both succeeded on the PR. Self-test ran `uses: ./` with `dry-run: true` and no API key; stderr: `kept=4 ignored=1 redactions=0 chunks=1 llm=false dry-run=true comment=none`. Capture: `docs/self-test-capture.txt`.
 
 ## In progress
 
@@ -23,7 +24,7 @@
 ## Next
 
 - Live model call and a real pull request comment, only after the owner supplies an API key (repo secret) and approves a destination PR.
-- Optional: open a keyless dry-run self-test PR so GitHub Actions exercises `uses: ./` without a provider key.
+- Consider moving the action runtime off Node 20 when GitHub finishes forcing runners toward Node 24 (warning observed on the self-test job).
 
 ## Known issues
 
