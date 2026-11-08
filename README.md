@@ -246,7 +246,7 @@ jobs:
 
 The read-only self-test is [.github/workflows/self-test.yml](.github/workflows/self-test.yml). It sets `dry-run: true`, does not pass an API key, and does not grant `pull-requests: write`.
 
-`make dev` installs, builds, and runs the keyless command. `make test`, `make lint`, and `make build` are the other entry points. `docker compose up` builds the image and runs that same keyless command. See Limitations for the Docker check that was not run.
+`make dev` installs, builds, and runs the keyless command. `make test`, `make lint`, and `make build` are the other entry points. `docker compose up --build` builds the image (tests included) and runs that same keyless command; see [docs/docker-compose-capture.txt](docs/docker-compose-capture.txt).
 
 ## Structure
 
@@ -268,7 +268,7 @@ The read-only self-test is [.github/workflows/self-test.yml](.github/workflows/s
 │   └── http/               rate limit and retry
 ├── tests/                  unit, mock integration, bundle
 ├── dist/                   esbuild bundle, target node20
-├── docs/                   architecture, privacy, CLI capture
+├── docs/                   architecture, privacy, CLI + Docker captures
 ├── examples/workflow.yml
 ├── .github/workflows/      CI and self-test
 ├── Dockerfile
@@ -302,9 +302,10 @@ Coverage from `npm run test:coverage` on Node.js 20.20.2 at 2026-11-08 11:31 UTC
 
 ## Limitations and roadmap
 
-- No live model call and no live pull request comment were made. There is no API key in this environment, and posting a comment was not approved. The client and the comment upsert are covered with a local mock server. A real provider run and a real comment are waiting on the owner.
-- Docker is not installed here, so `docker compose up` was not executed. The Dockerfile targets `node:20-alpine`, runs the tests during the image build, and starts the keyless CLI. The image itself was not built.
-- GitHub Actions workflows are in the tree. They have not been run on GitHub. Nothing was pushed.
+- No live model call and no live pull request comment were made. There is no owner API key in this environment, and posting a comment was not approved. The client and the comment upsert are covered with a local mock server. A real provider run and a real comment wait on a repo secret and owner approval.
+- `docker compose up --build` was run successfully on Docker Desktop 29.9.2 / Compose v5.6.1. The image build runs tests; the container prints the same keyless inventory as the CLI. Capture: [docs/docker-compose-capture.txt](docs/docker-compose-capture.txt).
+- The repo is on GitHub at [mohamedtaqysalmi/pr-summary-action](https://github.com/mohamedtaqysalmi/pr-summary-action) (private). CI verifies lint, tests, build, committed `dist/`, the bundle CLI, and `npm audit`. The first remote CI run failed only on an executable-bit diff for `dist/cli.js`; CI now ignores file-mode-only changes under `dist/`.
+- The read-only self-test workflow (`.github/workflows/self-test.yml`) runs the local action with `dry-run: true` and no API key on `pull_request`. It does not post a comment and does not need a paid key.
 - Redaction misses split, encoded, and custom secrets. It can redact a long benign assignment to `password` or `api_key`. Details and the pattern list are in [docs/privacy.md](docs/privacy.md).
 - GitHub may omit a patch. This action also stops at `PR_SUMMARY_MAX_FILES`, `PR_SUMMARY_MAX_COMMITS`, `max-diff-chars`, and `PR_SUMMARY_MAX_CHUNKS`. A multi-chunk run summarizes each chunk and then combines those notes, so a detail that is only visible across chunks can be lost.
 - The model can be wrong. The comment says when no model was called. A keyless run is not a review.
@@ -314,7 +315,7 @@ Coverage from `npm run test:coverage` on Node.js 20.20.2 at 2026-11-08 11:31 UTC
 - Commit review without a model checks Conventional Commit form only. It does not judge the wording.
 - The default model name may not exist on a non-OpenAI server. Set `model`.
 
-Later, if the owner wants it: a live provider check, extra operator-supplied redaction patterns, and line comments. Line comments are not implemented.
+Later, if the owner wants it: a live provider check (needs `OPENAI_API_KEY` or equivalent), a real marker-comment upsert on an approved PR, extra operator-supplied redaction patterns, and line comments. Line comments are not implemented.
 
 ## License
 
