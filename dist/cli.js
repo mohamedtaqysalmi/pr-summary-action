@@ -420,8 +420,10 @@ function loadConfig(runtime) {
       /\/+$/,
       ""
     ),
-    eventName: readRaw(env, ["GITHUB_EVENT_NAME"]) ?? null,
-    eventPath: readRaw(env, ["GITHUB_EVENT_PATH"]) ?? null,
+    // CLI dry-runs use --diff-file / --commits-file. Ignore Actions event env so a
+    // push workflow (GITHUB_EVENT_PATH pointing at a non-PR payload) cannot break them.
+    eventName: runtime.kind === "cli" ? null : readRaw(env, ["GITHUB_EVENT_NAME"]) ?? null,
+    eventPath: runtime.kind === "cli" ? null : readRaw(env, ["GITHUB_EVENT_PATH"]) ?? null,
     diffFile: flags.diffFile ?? null,
     commitsFile: flags.commitsFile ?? null,
     fixtureTitle: flags.title ?? "Fixture pull request",

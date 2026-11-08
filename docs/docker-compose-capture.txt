@@ -1,0 +1,91 @@
+Captured 2026-11-08 from Docker Desktop 29.9.2 / Compose v5.6.1 with:
+
+  docker compose up --build
+
+Image: pr-summary-action:local (Dockerfile multi-stage: node:20-alpine build runs
+npm ci, npm run build, npm test, npm run typecheck; runtime runs the keyless CLI).
+Exit code: 0. No model was called and no comment was posted.
+
+pr-summary-action: kept=5 ignored=1 redactions=5 chunks=1 llm=false dry-run=true comment=none
+pr-summary-action 0.1.0
+language: en
+mode: full
+dry-run: true
+llm: skipped (no api key)
+comment: not posted
+
+files kept (5):
+- src/auth/session.ts
+- src/auth/session.test.ts
+- src/config/example.ts
+- assets/logo.png
+- src/auth/names.ts
+files ignored (1):
+- package-lock.json
+redactions: 5
+- private-key: 1
+- aws-access-key-id: 1
+- github-token: 1
+- assigned-secret: 2
+bounded chars: 1563
+chunks: 1
+omitted files: 0
+
+commit review (deterministic):
+- aaaaaaa feat(auth): shorten session ttl — ok
+- bbbbbbb update stuff — needs changes (not-conventional)
+- ccccccc fix(config): remove sample credential — ok
+
+--- comment body (not posted) ---
+<!-- pr-summary-action:v1 -->
+<!-- pr-summary-action meta mode=full language=en llm=false model=none dry-run=true redactions=5 -->
+## Summary
+
+No model was called. This note only counts the diff and commit messages locally. It is not a review.
+
+## Files
+
+**Kept**
+
+- src/auth/session.ts
+- src/auth/session.test.ts
+- src/config/example.ts
+- assets/logo.png
+- src/auth/names.ts
+
+**Ignored**
+
+- package-lock.json
+
+**Redactions:** 5
+
+- private-key: 1
+- aws-access-key-id: 1
+- github-token: 1
+- assigned-secret: 2
+
+1563 / 60000
+
+## Key changes
+
+No model was called. This note only counts the diff and commit messages locally. It is not a review.
+
+## Risks
+
+Risks were not assessed because no model was called.
+
+## Test plan
+
+No test plan was proposed because no model was called.
+
+## Suggested title
+
+The model did not suggest a title.
+
+## Commit message review
+
+- `aaaaaaa` feat(auth): shorten session ttl — ok — No model suggestion.
+- `bbbbbbb` update stuff — the first line is not a Conventional Commit — No model suggestion.
+- `ccccccc` fix(config): remove sample credential — ok — No model suggestion.
+
+This note was produced by pr-summary-action 0.1.0.

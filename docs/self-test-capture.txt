@@ -1,0 +1,23 @@
+Captured 2026-11-08 from GitHub Actions Self-test on pull request #1
+(https://github.com/mohamedtaqysalmi/pr-summary-action/pull/1).
+
+Workflow: .github/workflows/self-test.yml
+Run: https://github.com/mohamedtaqysalmi/pr-summary-action/actions/runs/42519494091
+Conclusion: success
+
+Inputs (no api-key secret):
+  dry-run: true
+  mode: full
+  language: en
+  fail-on-error: true
+
+Action stderr line:
+  pr-summary-action: kept=4 ignored=1 redactions=0 chunks=1 llm=false dry-run=true comment=none
+
+Notes:
+- Ran against the real pull_request event for this repo (uses: ./).
+- No model was called (llm=false). No comment was posted (comment=none).
+- No paid API key or OPENAI_API_KEY secret was required.
+- GitHub Actions also emitted a Node.js 20 deprecation warning for the
+  action runtime on the runner (forced toward Node 24); tracked as a
+  future runner/runtime follow-up, not a functional failure of this run.

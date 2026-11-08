@@ -12,6 +12,11 @@
 - Makefile, Dockerfile, Compose, CI workflow, and a read-only self-test workflow.
 - Node.js 20.20.2 ran the tests, lint, typecheck, and keyless CLI on 2026-11-08. `esbuild` target is `node20`. The image's default `node` is v22.23.4; the Node 20 check used the installed v20.20.2 binary.
 - Fresh local clone of `27ea7c8` followed the README quick start on Node.js 20.20.2: `npm ci` (0 vulnerabilities, no engine warning), lint, format, typecheck, 46 tests, build, and a CLI transcript identical to `docs/cli-capture.txt`. Rebuilding did not change `dist/`.
+- Pushed to GitHub: https://github.com/mohamedtaqysalmi/pr-summary-action (private). Remote `origin` is that repo.
+- CI on the first push failed only on a Linux executable-bit change for `dist/cli.js` (`100644` → `100755` from `chmodSync` in `scripts/build.mjs`). Fixed by checking dist with `git -c core.fileMode=false diff --exit-code -- dist`, and recording `dist/cli.js` as mode `100755` in the index.
+- `docker compose up --build` succeeded on Docker Desktop 29.9.2 / Compose v5.6.1. Image build ran tests; the container keyless dry-run matched the CLI capture. Transcript: `docs/docker-compose-capture.txt`.
+- Opened PR #1 (`fix/ci-dist-filemode`) for the CI file-mode fix. CI verify and Self-test both succeeded on the PR. Self-test ran `uses: ./` with `dry-run: true` and no API key; stderr: `kept=4 ignored=1 redactions=0 chunks=1 llm=false dry-run=true comment=none`. Capture: `docs/self-test-capture.txt`.
+- Push-event CI failed `npm run test:cli` because Actions sets `GITHUB_EVENT_PATH` to a non-PR payload; the CLI inherited it and tried to parse the push event. Fixed: CLI mode ignores `GITHUB_EVENT_NAME` / `GITHUB_EVENT_PATH`.
 
 ## In progress
 
@@ -19,12 +24,12 @@
 
 ## Next
 
-- Live model call and a real pull request comment, only after the owner approves a key and a destination.
-- Push to GitHub and remote CI, only when publishing is allowed. Neither has been done.
+- Live model call and a real pull request comment, only after the owner supplies an API key (repo secret) and approves a destination PR.
+- Consider moving the action runtime off Node 20 when GitHub finishes forcing runners toward Node 24 (warning observed on the self-test job).
 
 ## Known issues
 
-- Docker is not installed in this environment (`docker` is absent), so `docker compose up` was not executed. The Dockerfile and Compose file are present and unrun.
+- No live model call and no live comment write have been made. Blocked on an owner-provided API key / approval. Dry-run and mock coverage remain the verified path.
 - Redaction is a pattern list. It misses split, encoded, and custom secrets, and it can redact a long benign assignment.
 - GitHub can omit patches, and this action also caps files, commits, characters, and chunks.
 - Two concurrent first runs can create two marker comments. The next run updates every comment that has the marker.

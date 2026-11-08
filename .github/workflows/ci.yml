@@ -22,6 +22,8 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
-      - run: git diff --exit-code -- dist
+      # Ignore executable-bit-only noise: Windows commits may store 0644 while
+      # scripts/build.mjs chmodSyncs dist/cli.js to 0755 on Linux runners.
+      - run: git -c core.fileMode=false diff --exit-code -- dist
       - run: npm run test:cli
       - run: npm audit --audit-level=moderate

@@ -53,6 +53,21 @@ describe("inputs", () => {
     expect(config.failOnError).toBe(true);
   });
 
+  it("ignores Actions event env in CLI mode", () => {
+    const { runtime } = captureRuntime({
+      argv: ["dry-run", "--diff-file", "tests/fixtures/sample.diff"],
+      env: {
+        GITHUB_EVENT_NAME: "push",
+        GITHUB_EVENT_PATH: "/tmp/push-event.json",
+        GITHUB_REPOSITORY: "acme/widgets",
+      },
+    });
+    const config = loadConfig(runtime);
+    expect(config.eventName).toBeNull();
+    expect(config.eventPath).toBeNull();
+    expect(config.diffFile).toBe("tests/fixtures/sample.diff");
+  });
+
   it("rejects a live run without an api key", () => {
     const { runtime } = captureRuntime({
       kind: "action",
