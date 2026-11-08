@@ -4,7 +4,7 @@ pr-summary-action turns a pull request diff into one comment. The same code path
 
 ## Decisions
 
-**No runtime dependencies.** The published action is an esbuild bundle aimed at Node 20. `npm audit --omit=dev` has nothing to scan except this package. ESLint’s transitive `minimatch` is pinned to 11.0.5 with an override because older 10.x releases have a moderate ReDoS advisory and are only used while linting.
+**No runtime dependencies.** The published action is an esbuild bundle aimed at Node 20. `npm audit --omit=dev` has nothing to scan except this package. ESLint’s transitive `minimatch` is pinned to 11.0.5 with an override because older 10.x releases have a moderate ReDoS advisory and are only used while linting. Vitest is pinned to 4.1.12 because Vitest 5 requires Node.js 22, and the action runtime is Node.js 20.
 
 **Redact before the model, and again before the comment.** Ignore rules run first so lockfiles and build output are not redacted or sent. The remaining text is redacted, then cut to `max-diff-chars`, then split into a bounded number of chunks. Model prose is passed through the same patterns before it is rendered, in case the model echoes a token that reached it.
 

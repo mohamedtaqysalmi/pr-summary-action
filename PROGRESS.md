@@ -14,7 +14,7 @@
 
 ## In progress
 
-- Nothing local. Fresh-clone verification is the last check before the source archive.
+- Re-check the README quick start from a fresh local clone after pinning Vitest to 4.1.12, which supports Node.js 20. Vitest 5 does not.
 
 ## Next
 
