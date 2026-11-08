@@ -1,0 +1,30 @@
+name: PR summary
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          api-key: ${{ secrets.OPENAI_API_KEY }}
+          base-url: https://api.openai.com/v1
+          model: gpt-4o-mini
+          language: en
+          max-diff-chars: "60000"
+          ignore-paths: |
+            **/node_modules/**
+            **/dist/**
+            **/*.lock
+            **/package-lock.json
+          mode: full
+          dry-run: "false"
+          fail-on-error: "false"
+          github-token: ${{ github.token }}
