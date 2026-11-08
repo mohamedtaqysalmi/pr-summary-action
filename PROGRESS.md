@@ -12,18 +12,19 @@
 - Makefile, Dockerfile, Compose, CI workflow, and a read-only self-test workflow.
 - Node.js 20.20.2 ran the tests, lint, typecheck, and keyless CLI on 2026-11-08. `esbuild` target is `node20`. The image's default `node` is v22.23.4; the Node 20 check used the installed v20.20.2 binary.
 - Fresh local clone of `27ea7c8` followed the README quick start on Node.js 20.20.2: `npm ci` (0 vulnerabilities, no engine warning), lint, format, typecheck, 46 tests, build, and a CLI transcript identical to `docs/cli-capture.txt`. Rebuilding did not change `dist/`.
-- Pushed to GitHub: https://github.com/mohamedtaqysalmi/pr-summary-action (private). Remote `origin` is that repo.
+- Pushed to GitHub: https://github.com/mohamedtaqysalmi/pr-summary-action (now **public**). Remote `origin` is that repo.
+- GitHub Pages landing with interactive dry-run simulation: `docs/index.html`, `docs/site.css`, `docs/site.js`.
 - CI on the first push failed only on a Linux executable-bit change for `dist/cli.js` (`100644` → `100755` from `chmodSync` in `scripts/build.mjs`). Fixed by checking dist with `git -c core.fileMode=false diff --exit-code -- dist`, and recording `dist/cli.js` as mode `100755` in the index.
 - `docker compose up --build` succeeded on Docker Desktop 29.9.2 / Compose v5.6.1. Image build ran tests; the container keyless dry-run matched the CLI capture. Transcript: `docs/docker-compose-capture.txt`.
 
 ## In progress
 
-- Nothing.
+- Enable GitHub Pages from `/docs` on `main` after the landing PR merges.
 
 ## Next
 
+- Merge `docs/github-pages` → `main`, turn on Pages, confirm https://mohamedtaqysalmi.github.io/pr-summary-action/
 - Live model call and a real pull request comment, only after the owner supplies an API key (repo secret) and approves a destination PR.
-- Optional: open a keyless dry-run self-test PR so GitHub Actions exercises `uses: ./` without a provider key.
 
 ## Known issues
 
