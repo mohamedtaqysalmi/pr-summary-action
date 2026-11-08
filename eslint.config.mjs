@@ -8,6 +8,7 @@ export default tseslint.config(
       "coverage/**",
       "node_modules/**",
       "uploads/**",
+      "docs/**",
       "eslint.config.mjs",
       "scripts/**",
       "vitest.config.mjs",
