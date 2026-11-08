@@ -10,11 +10,12 @@
 - Keyless dry-run prints an inventory and a deterministic Conventional Commit lint. It does not invent a model summary.
 - Vitest coverage of the library, plus a mock GitHub/model integration and a bundled CLI/action test.
 - Makefile, Dockerfile, Compose, CI workflow, and a read-only self-test workflow.
-- Node.js 20.20.2 ran the tests, lint, typecheck, and keyless CLI on 2026-11-08. `esbuild` target is `node20`.
+- Node.js 20.20.2 ran the tests, lint, typecheck, and keyless CLI on 2026-11-08. `esbuild` target is `node20`. The image's default `node` is v22.23.4; the Node 20 check used the installed v20.20.2 binary.
+- Fresh local clone of `27ea7c8` followed the README quick start on Node.js 20.20.2: `npm ci` (0 vulnerabilities, no engine warning), lint, format, typecheck, 46 tests, build, and a CLI transcript identical to `docs/cli-capture.txt`. Rebuilding did not change `dist/`.
 
 ## In progress
 
-- Re-check the README quick start from a fresh local clone after pinning Vitest to 4.1.12, which supports Node.js 20. Vitest 5 does not.
+- Nothing.
 
 ## Next
 
@@ -23,7 +24,7 @@
 
 ## Known issues
 
-- Docker is not installed in this environment, so `docker compose up` was not executed. The Dockerfile and Compose file are present and unrun.
+- Docker is not installed in this environment (`docker` is absent), so `docker compose up` was not executed. The Dockerfile and Compose file are present and unrun.
 - Redaction is a pattern list. It misses split, encoded, and custom secrets, and it can redact a long benign assignment.
 - GitHub can omit patches, and this action also caps files, commits, characters, and chunks.
 - Two concurrent first runs can create two marker comments. The next run updates every comment that has the marker.
